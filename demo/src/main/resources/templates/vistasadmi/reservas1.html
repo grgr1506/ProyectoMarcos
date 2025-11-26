@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+
+<body>
+    <div th:replace="~{fragments/header :: topbar}"></div>
+
+    <nav th:replace="~{vistasadmi/dashboard :: navbar-admin(active='reservas')}"></nav>
+
+    <div class="container py-4">
+        <h2 class="text-center mb-4 fw-bold section-title">Gestión de Reservas y Contactos</h2>
+        
+        <section class="mb-5">
+            <div class="text-center mb-4">
+                <h2 class="section-title">Reservas del Día</h2>
+            </div>
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle" id="tablaReservas">
+                            <thead style="background-color: var(--color1); color: var(--color4);">
+                                <tr>
+                                    <th class="text-center">
+                                        <i class="fa-solid fa-user me-1"></i>Nombre
+                                    </th>
+                                    <th class="text-center">
+                                        <i class="fa-solid fa-phone me-1"></i>Teléfono
+                                    </th>
+                                    <th class="text-center">
+                                        <i class="fa-solid fa-users me-1"></i>Personas
+                                    </th>
+                                    <th class="text-center">
+                                        <i class="fa-solid fa-clock me-1"></i>Hora
+                                    </th>
+                                    <th class="text-center">
+                                        <i class="fa-solid fa-cog me-1"></i>Acciones
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaReservasBody">
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted">
+                                        <i class="fa-solid fa-spinner fa-spin me-2"></i>Cargando reservas...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-5">
+            <div class="text-center mb-4">
+                <h2 class="section-title">Consultas Recibidas</h2>
+            </div>
+            <div class="card shadow-lg border-0 rounded-4">
+                <div class="card-body p-4">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead style="background-color: var(--color1); color: var(--color4);">
+                                <tr>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Apellido</th>
+                                    <th class="text-center">Teléfono</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Tipo</th>
+                                    <th class="text-center">Mensaje</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaConsultasBody">
+                                <tr>
+                                    <td colspan="8" class="text-center text-muted">
+                                        <i class="fa-solid fa-spinner fa-spin me-2"></i>Cargando consultas...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="modal fade" id="confirmarBorrar" tabindex="-1" aria-labelledby="confirmarBorrarLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0"
+                    style="background: linear-gradient(135deg, var(--color1) 0%, #e6a800 100%);">
+                    <h5 class="modal-title fw-bold" id="confirmarBorrarLabel" style="color: var(--color4);">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="mb-0" style="color: var(--color4);">
+                        ¿Estás seguro de que deseas eliminar esta reserva? Esta acción no se puede deshacer.
+                    </p>
+                </div>
+                <div class="modal-footer border-0 p-3">
+                    <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger rounded-3" id="btnEliminar">
+                        <i class="fa-solid fa-trash me-2"></i>Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="~{fragments/footer :: floating}"></div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <a th:replace="~{fragments/footer :: scrolltop}"></a>
+
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+    
+    <script>
+        // Función para mostrar notificaciones toast (debe estar disponible globalmente)
+        function showToast(message, type = 'success') {
+            const toastHtml = `
+                <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="d-flex">
+                        <div class="toast-body">${message}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                    </div>
+                </div>
+            `;
+
+            let toastContainer = document.querySelector('.toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                document.body.appendChild(toastContainer);
+            }
+
+            toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+            const toastElement = toastContainer.lastElementChild;
+            const toast = new bootstrap.Toast(toastElement);
+            toast.show();
+
+            toastElement.addEventListener('hidden.bs.toast', function () {
+                this.remove();
+            });
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('Inicializando sistema de gestión de reservas y consultas (Vista Admin)...');
+
+            // --- RESERVAS ---
+            const tablaReservasBody = document.getElementById("tablaReservasBody");
+            const btnEliminar = document.getElementById("btnEliminar");
+
+            let reservaAEliminar = null;
+
+            // Función para cargar reservas del día desde la BD
+            function cargarReservas() {
+                fetch('/reservas/del-dia')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Error al cargar reservas');
+                        }
+                        return response.json();
+                    })
+                    .then(reservas => {
+                        console.log('Reservas cargadas:', reservas);
+                        actualizarTablaReservas(reservas);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        tablaReservasBody.innerHTML = `
+                            <tr>
+                                <td colspan="5" class="text-center text-danger">
+                                    <i class="fa-solid fa-exclamation-circle me-2"></i>
+                                    Error al cargar las reservas
+                                </td>
+                            </tr>
+                        `;
+                    });
+            }
+
+            // Función para actualizar la tabla de Reservas
+            function actualizarTablaReservas(reservas) {
+                if (reservas.length === 0) {
+                    tablaReservasBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">
+                                <i class="fa-solid fa-calendar-xmark me-2"></i>
+                                No hay reservas para el día de hoy
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                tablaReservasBody.innerHTML = '';
+                reservas.forEach(reserva => {
+                    const hora = reserva.fechaHora.substring(11, 16); // Extraer HH:mm
+                    const fila = document.createElement("tr");
+                    fila.style.cursor = "pointer";
+                    fila.innerHTML = `
+                        <td class="text-center">${reserva.cliente.nombre}</td>
+                        <td class="text-center">${reserva.cliente.telefono}</td>
+                        <td class="text-center">
+                            <span class="badge" style="background-color: var(--color1); color: var(--color4);">
+                                ${reserva.numeroPersonas}
+                            </span>
+                        </td>
+                        <td class="text-center">
+                            <i class="fa-solid fa-clock me-1" style="color: var(--color1);"></i>
+                            ${hora}
+                        </td>
+                        <td class="text-center">
+                            <button class="btn btn-sm btn-danger rounded-3" onclick="window.prepararEliminarReserva(${reserva.id})">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tablaReservasBody.appendChild(fila);
+                });
+            }
+
+            // Función global para preparar eliminación
+            window.prepararEliminarReserva = function (id) {
+                reservaAEliminar = id;
+                const modalElement = document.getElementById("confirmarBorrar");
+                const modal = new bootstrap.Modal(modalElement);
+                modal.show();
+            };
+
+            // Event listener para el botón de eliminar
+            if (btnEliminar) {
+                btnEliminar.addEventListener("click", function () {
+                    if (reservaAEliminar !== null) {
+                        fetch(`/reservas/api/eliminar/${reservaAEliminar}`, {
+                            method: 'DELETE'
+                        })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data.success) {
+                                    showToast('Reserva eliminada con éxito!', 'info');
+                                    cargarReservas(); // Recargar tabla
+
+                                    // Cerrar modal
+                                    const modalElement = document.getElementById("confirmarBorrar");
+                                    const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                                    if (modalInstance) {
+                                        modalInstance.hide();
+                                    }
+
+                                    reservaAEliminar = null;
+                                } else {
+                                    showToast('Error: ' + data.message, 'danger');
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error);
+                                showToast('Error al eliminar la reserva', 'danger');
+                            });
+                    }
+                });
+            }
+            
+            // --- CONSULTAS ---
+            const cuerpoConsultas = document.getElementById('tablaConsultasBody');
+            
+            function cargarConsultas() {
+                fetch('/consultas/api/listar')
+                    .then(r => r.json())
+                    .then(consultas => {
+                        if (!consultas || consultas.length === 0) {
+                            cuerpoConsultas.innerHTML = `
+            <tr><td colspan="8" class="text-center text-muted">
+              No hay consultas
+            </td></tr>`;
+                            return;
+                        }
+
+                        cuerpoConsultas.innerHTML = '';
+                        consultas.forEach(c => {
+                            const badge = estado => {
+                                const map = { 'PENDIENTE': 'warning', 'EN_PROCESO': 'info', 'RESUELTA': 'success' };
+                                return `<span class="badge bg-${map[estado] || 'secondary'}">${estado}</span>`;
+                            };
+
+                            const fila = document.createElement('tr');
+                            fila.innerHTML = `
+            <td class="text-center">${c.nombre}</td>
+            <td class="text-center">${c.apellido}</td>
+            <td class="text-center">${c.telefono}</td>
+            <td class="text-center">${c.email}</td>
+            <td class="text-center">${c.tipoConsulta}</td>
+            <td class="text-center text-truncate" style="max-width:240px" title="${c.mensaje}">${c.mensaje}</td>
+            <td class="text-center">
+              ${badge(c.estado)}
+              <div class="dropdown d-inline ms-2">
+                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" data-bs-toggle="dropdown">Cambiar</button>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#" data-estado="PENDIENTE" data-id="${c.id}">Pendiente</a></li>
+                  <li><a class="dropdown-item" href="#" data-estado="EN_PROCESO" data-id="${c.id}">En proceso</a></li>
+                  <li><a class="dropdown-item" href="#" data-estado="RESUELTA" data-id="${c.id}">Resuelta</a></li>
+                </ul>
+              </div>
+            </td>
+            <td class="text-center">
+              <button class="btn btn-sm btn-danger rounded-3" data-eliminar="${c.id}">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          `;
+
+                            // Cambio de estado
+                            fila.querySelectorAll('.dropdown-item').forEach(a => {
+                                a.addEventListener('click', ev => {
+                                    ev.preventDefault();
+                                    const id = a.getAttribute('data-id');
+                                    const estado = a.getAttribute('data-estado');
+                                    fetch(`/consultas/api/estado/${id}?estado=${estado}`, { method: 'PATCH' })
+                                        .then(r => r.json())
+                                        .then(d => {
+                                            if (d.success) { showToast('Estado actualizado', 'info'); cargarConsultas(); }
+                                            else { showToast(d.message || 'Error al actualizar', 'danger'); }
+                                        })
+                                        .catch(() => showToast('Error de red', 'danger'));
+                                });
+                            });
+
+                            // Eliminar
+                            fila.querySelector('[data-eliminar]').addEventListener('click', (e) => {
+                                const id = e.currentTarget.getAttribute('data-eliminar');
+                                if (!confirm('¿Eliminar consulta?')) return;
+                                fetch(`/consultas/api/eliminar/${id}`, { method: 'DELETE' })
+                                    .then(r => r.json())
+                                    .then(d => {
+                                        if (d.success) { showToast('Consulta eliminada', 'info'); cargarConsultas(); }
+                                        else { showToast(d.message || 'Error al eliminar', 'danger'); }
+                                    })
+                                    .catch(() => showToast('Error de red', 'danger'));
+                            });
+
+                            cuerpoConsultas.appendChild(fila);
+                        });
+                    })
+                    .catch(() => {
+                        cuerpoConsultas.innerHTML = `
+          <tr><td colspan="8" class="text-center text-danger">
+            Error al cargar consultas
+          </td></tr>`;
+                    });
+            }
+            
+            // Cargar datos al iniciar
+            cargarReservas();
+            cargarConsultas();
+
+            // Actualizar cada 30 segundos
+            setInterval(cargarReservas, 30000);
+            setInterval(cargarConsultas, 30000);
+        });
+    </script>
+</body>
+</html>

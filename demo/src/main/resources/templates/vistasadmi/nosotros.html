@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+
+<body>
+    <!-- Barra Superior -->
+    <div th:replace="~{fragments/header :: topbar}"></div>
+
+    <!-- Navbar personalizada para ADMIN -->
+    <nav th:fragment="navbar-admin" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/dashboard}">
+                <img th:src="@{/img/Proyecto nuevo (2).jpg}" alt="La Real 394" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/dashboard}" th:classappend="${active=='dashboard'} ? 'active' : ''">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/nosotros}" th:classappend="${active=='nosotros'} ? 'active' : ''">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/estadisticas}" th:classappend="${active=='estadisticas'} ? 'active' : ''">Estadísticas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistaadmi/reservas}" th:classappend="${active=='reservas'} ? 'active' : ''">Reservas</a></li>
+                </ul>
+            </div>
+            <div class="d-flex">
+                <a th:href="@{/login}" class="btn btn-warning text-dark fw-bold">Cerrar sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <div class="contact-hero-content">
+                <h1>Nosotros</h1>
+                <p>Somos un equipo comprometido en ofrecerte la mejor calidad y atención.</p>
+                <div class="contact-hero-icons">
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main>
+        <section id="banner-nosotros" class="espaciado section-light-bg">
+            <div class="contenedor">
+                <h2 class="text-center">LA REAL 394: Nuestra Historia</h2>
+                <p>En La Real 394, cada sándwich cuenta una historia, la historia de nuestra pasión por la buena
+                    comida y el deseo de compartir momentos inolvidables. Desde nuestros humildes comienzos, nos hemos
+                    dedicado a perfeccionar el arte de la sanguchería, combinando ingredientes frescos de la más alta
+                    calidad con recetas innovadoras que deleitan el paladar.</p>
+                <p>Nuestra visión va más allá de servir solo comida; buscamos crear un espacio donde la comunidad
+                    pueda reunirse, relajarse y disfrutar de una experiencia culinaria auténtica y acogedora. Creemos
+                    firmemente que un sándwich bien hecho tiene el poder de alegrar el día, y es esa creencia la que
+                    impulsa cada uno de nuestros esfuerzos.</p>
+                
+                <div class="fila" style="align-items: center; margin-top: 40px;">
+                    <div class="columna" style="flex: 1; padding: 15px;">
+                        <h3>Nuestros Inicios</h3>
+                        <p>La Real 394 nació de un sueño compartido por un grupo de amigos apasionados por la
+                            gastronomía. Inspirados por la rica tradición de los sándwiches peruanos y con la visión de
+                            llevarla a un nuevo nivel, comenzamos a experimentar en nuestra propia cocina. Horas de
+                            pruebas, la búsqueda incansable de los mejores insumos y el compromiso inquebrantable con la
+                            calidad, nos llevaron a perfeccionar nuestras recetas insignia.</p>
+                        <p>Cada ingrediente es seleccionado cuidadosamente, desde el pan recién horneado hasta las carnes
+                            jugosas y los vegetales más frescos, garantizando así un sabor y una textura inigualables en
+                            cada bocado. Es este amor por los detalles lo que nos ha permitido crecer y ganarnos el
+                            corazón de nuestros clientes.</p>
+                    </div>
+                    <div class="columna" style="flex: 1; padding: 15px;">
+                        <img th:src="@{/img/fachada.jpg}" class="ajustar-img" alt="Historia 1">
+                    </div>
+                </div>
+
+                <div class="fila" style="align-items: center; margin-top: 40px;">
+                    <div class="columna" style="flex: 1; padding: 15px;">
+                        <img th:src="@{/img/gente.jpg}" class="ajustar-img" alt="Historia 2">
+                    </div>
+                    <div class="columna" style="flex: 1; padding: 15px;">
+                        <h3>Nuestro Compromiso</h3>
+                        <p>En La Real 394, el compromiso con la excelencia es constante. Estamos siempre buscando nuevas
+                            formas de innovar, de sorprender a nuestros clientes y de superar sus expectativas. Creemos
+                            en el crecimiento sostenible y en la responsabilidad social, por lo que trabajamos de la mano
+                            con productores locales, apoyando la economía de nuestra región.</p>
+                        <p>Pero más allá de los ingredientes y las recetas, lo que realmente nos define es la calidez y
+                            el espíritu de nuestro equipo. Cada miembro de La Real 394 comparte la misma pasión y se
+                            esfuerza por brindar un servicio excepcional, creando un ambiente familiar y acogedor para
+                            todos. Te invitamos a ser parte de nuestra familia y a disfrutar de una experiencia
+                            culinaria que deleitará todos tus sentidos. ¡Te esperamos en La Real 394!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Nuestros Valores -->
+        <section class="py-5 bg-light text-center">
+            <div class="container">
+                <h2 class="mb-5">Nuestros Valores</h2>
+                <div class="row">
+                    <div class="col-md-4">
+                        <i class="fa-solid fa-heart fa-3x mb-3 text-danger"></i>
+                        <h5>Pasión</h5>
+                        <p>Hacemos todo con amor y dedicación, cuidando cada detalle.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fa-solid fa-leaf fa-3x mb-3 text-success"></i>
+                        <h5>Frescura</h5>
+                        <p>Trabajamos con ingredientes frescos y de la más alta calidad.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <i class="fa-solid fa-users fa-3x mb-3 text-primary"></i>
+                        <h5>Comunidad</h5>
+                        <p>Un espacio para compartir en familia y con amigos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Timeline -->
+        <section class="py-5">
+            <div class="container">
+                <h2 class="text-center mb-4">Nuestra Historia</h2>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>2019:</strong> La idea nace entre amigos apasionados por la
+                        gastronomía.</li>
+                    <li class="list-group-item"><strong>2020:</strong> Abrimos nuestro primer local en la ciudad.</li>
+                    <li class="list-group-item"><strong>2022:</strong> Ampliamos el menú con sánguches innovadores.</li>
+                    <li class="list-group-item"><strong>2025:</strong> Nos consolidamos como un espacio de encuentro
+                        familiar.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Nuestro Equipo -->
+        <section class="py-5 bg-light">
+            <div class="container text-center">
+                <h2 class="mb-4">Nuestro Equipo</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <div class="col">
+                        <div class="card h-100 shadow">
+                            <div class="card-img-container">
+                                <img th:src="@{/img/chef1.jpg}" class="card-img-top" alt="Chef fundador">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">María Lopez</h5>
+                                <p class="card-text">Fundadora y maestra sanguchero. Combina tradición con innovación en
+                                    cada receta.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card h-100 shadow">
+                            <div class="card-img-container">
+                                <img th:src="@{/img/chef2.jpg}" class="card-img-top" alt="Chef innovador">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Juan Florez</h5>
+                                <p class="card-text">Encargado de recetas creativas. Diseña sabores únicos que
+                                    conquistan paladares.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="card h-100 shadow">
+                            <div class="card-img-container">
+                                <img th:src="@{/img/chef3.jpg}" class="card-img-top" alt="Atención al cliente">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">Andrea Gómez</h5>
+                                <p class="card-text">Atención al cliente y calidad. Su meta es que cada visita sea
+                                    memorable.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Elementos Flotantes -->
+    <div th:replace="~{fragments/footer :: floating}"></div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Scroll Top -->
+    <a th:replace="~{fragments/footer :: scrolltop}"></a>
+
+    <!-- Scripts -->
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+</body>
+</html>

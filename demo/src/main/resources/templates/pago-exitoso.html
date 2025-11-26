@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head}">
+    <title>¡Pago Exitoso! - La Real 394</title>
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: topbar}"></div>
+    <nav th:replace="~{fragments/header :: navbar(active='carrito')}"></nav>
+
+    <main class="success-main espaciado"
+        style="background-color: var(--color6); min-height: 80vh; display: flex; align-items: center;">
+        <div class="container text-center">
+            <div class="success-card">
+                <div class="success-icon">
+                    <i class="fa-solid fa-check"></i>
+                </div>
+
+                <h1>¡Pago Exitoso!</h1>
+                <p class="lead">Gracias por tu compra en La Real 394.</p>
+
+                <div class="order-details">
+                    <p>Orden Nro: <strong th:text="${session.nroOrden}">ORD-0000</strong></p>
+                    <p>Te hemos enviado un correo con los detalles.</p>
+                </div>
+
+                <div class="actions mt-5">
+                    <a th:href="@{/menu}" class="btn-custom">
+                        <i class="fa-solid fa-utensils"></i> Volver al Menú
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <style>
+        .success-card {
+            background: white;
+            padding: 60px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            border-top: 6px solid #28a745;
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: #d4edda;
+            color: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            margin: 0 auto 30px;
+        }
+
+        .success-card h1 {
+            color: var(--color4);
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .order-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px dashed #ccc;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+    </style>
+</body>
+
+</html>

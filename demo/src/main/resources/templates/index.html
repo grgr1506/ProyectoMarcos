@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+
+<body>
+    <!-- Barra Superior -->
+    <div th:replace="~{fragments/header :: topbar}"></div>
+
+    <!-- Navbar -->
+    <nav th:replace="~{fragments/header :: navbar(active='inicio')}"></nav>
+
+    <!-- Banner Principal -->
+    <section id="banner">
+        <div class="banner-imagen">
+            <img th:src="@{/img/Proyecto nuevo (1)-pica.png}" class="ajustar-img"
+                alt="Banner principal de hamburguesas">
+        </div>
+    </section>
+
+    <!-- Sección Nosotros -->
+    <section id="nosotros" class="section-nosotros">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="content-card">
+                        <div class="text-center">
+                            <h2 class="section-title">Nosotros</h2>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-6">
+                                <p class="lead mb-4" style="font-size: 1.2rem; line-height: 1.8;">
+                                    En La Real 394, creemos que un buen sándwich es mucho más que solo comida. Es una
+                                    experiencia, un momento de felicidad.
+                                </p>
+                                <p class="lead mb-4" style="font-size: 1.2rem; line-height: 1.8;">
+                                    Por eso, nos dedicamos a crear sándwiches únicos, con combinaciones de sabores que
+                                    te harán volver por más. Usamos ingredientes frescos y de la mejor calidad, y le
+                                    ponemos todo nuestro corazón a cada preparación.
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-center">
+                                    <div class="text-center">
+                                        <div class="mb-4">
+                                            <i class="fa-solid fa-utensils"
+                                                style="font-size: 4rem; color: var(--color1);"></i>
+                                        </div>
+                                        <h4 style="color: var(--color4); font-weight: 700;">¡Ven a descubrir el sabor
+                                            auténtico de La Real 394!</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="carousel-section">
+        <div class="container">
+            <div class="text-center">
+                <h2 class="section-title mb-5">BEST SELLERS</h2>
+            </div>
+            <div id="bestSellersCarousel" class="carousel slide custom-carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- Platos dinámicos si existen -->
+                    <div class="carousel-item active" th:if="${platos != null and !platos.empty}">
+                        <div class="row g-4">
+                            <div class="col-lg-4 col-md-6" th:each="plato, iterStat : ${platos}"
+                                th:if="${iterStat.index < 3}">
+                                <div class="product-card">
+                                    <div class="product-image-container">
+                                        <img th:src="@{/img/RcFqhR8j6t8TKjJ7o-800-x.webp}" th:alt="${plato.nombre}">
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 th:text="${plato.nombre}">Nombre del Plato</h3>
+                                        <p class="card-text" th:text="${plato.descripcion}">Descripción del plato</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="product-price" th:text="'S/ ' + ${plato.precio}">S/ 0.00</span>
+                                            <a th:href="@{/menu}" class="btn btn-custom">Ver producto</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Platos estáticos como fallback -->
+                    <div class="carousel-item"
+                        th:class="${platos == null or platos.empty} ? 'carousel-item active' : 'carousel-item'">
+                        <div class="row g-4">
+                            <div class="col-lg-4 col-md-6">
+                                <div class="product-card">
+                                    <div class="product-image-container">
+                                        <img th:src="@{/img/RcFqhR8j6t8TKjJ7o-800-x.webp}" alt="Combo La Real">
+                                    </div>
+                                    <div class="card-body">
+                                        <h3>Combo La Real</h3>
+                                        <p class="card-text">Hamburguesa, papas fritas, bebida y salsa.</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="product-price">S/ 38.50</span>
+                                            <a th:href="@{/menu}" class="btn btn-custom">Ver producto</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="product-card">
+                                    <div class="product-image-container">
+                                        <img th:src="@{/img/9Pmt4KnbJGtGMLQRo-800-x.webp}" alt="Americana">
+                                    </div>
+                                    <div class="card-body">
+                                        <h3>Americana</h3>
+                                        <p class="card-text">Doble patty, doble queso cheddar.</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="product-price">S/ 38.00</span>
+                                            <a th:href="@{/menu}" class="btn btn-custom">Ver producto</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6">
+                                <div class="product-card">
+                                    <div class="product-image-container">
+                                        <img th:src="@{/img/egvrzYzXPWpJEt95w-800-x.webp}" alt="Royal Burger">
+                                    </div>
+                                    <div class="card-body">
+                                        <h3>Royal Burger</h3>
+                                        <p class="card-text">Triple patty, triple queso, bacon.</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="product-price">S/ 52.00</span>
+                                            <a th:href="@{/menu}" class="btn btn-custom">Ver producto</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#bestSellersCarousel"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#bestSellersCarousel"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <script>const carousels = document.querySelectorAll('.carousel');
+    console.log('main.js: Carousels encontrados:', carousels.length);
+    carousels.forEach(carousel => {
+        try {
+            const bsCarousel = new bootstrap.Carousel(carousel, {
+                interval: 6000,
+                ride: 'carousel'
+            });
+
+            carousel.addEventListener('mouseenter', () => {
+                bsCarousel.pause();
+            });
+
+            carousel.addEventListener('mouseleave', () => {
+                bsCarousel.cycle();
+            });
+            console.log('main.js: Carrusel inicializado.');
+        } catch (error) {
+            console.warn('main.js: Error inicializando carrusel:', error);
+        }
+    });
+
+    console.log('main.js: Inicialización completada.');
+
+</script>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    
+    <!-- Elementos Flotantes -->
+    <div th:replace="~{fragments/footer :: floating}"></div>
+    
+    <!-- Scroll Top -->
+    <div th:replace="~{fragments/footer :: scrolltop}"></div>
+
+    <!-- Scripts -->
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+</body>
+</html>

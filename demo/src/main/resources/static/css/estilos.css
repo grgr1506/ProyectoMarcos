@@ -1,0 +1,48 @@
+.footer-link{
+    text-decoration: none;
+    color: white;
+}
+
+.footer-link:hover{
+    text-decoration: underline;
+}
+
+
+.carousel-inner img {
+    height: 420px;
+    object-fit: cover;
+}
+
+
+/* Posiciona el botón derecho al extremo */
+.carousel-control-next {
+    right: 10px;
+}
+
+
+/* Altura uniforme para todas las imágenes  (apartado de postres)*/
+.card img {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* Mas margenes de los que tiene bostrap por si acaso*/
+.my-6 { margin-top: 4rem !important; margin-bottom: 4rem !important; }
+.mx-6 { margin-left: 4rem !important; margin-right: 4rem !important; }
+.my-7 { margin-top: 5rem !important; margin-bottom: 5rem !important; }
+.mx-7 { margin-left: 5rem !important; margin-right: 5rem !important; }
+.my-8 { margin-top: 6rem !important; margin-bottom: 6rem !important; }
+.mx-8 { margin-left: 6rem !important; margin-right: 6rem !important; }
+.my-9 { margin-top: 7rem !important; margin-bottom: 7rem !important; }
+.mx-9 { margin-left: 7rem !important; margin-right: 7rem !important; }
+.my-10 { margin-top: 8rem !important; margin-bottom: 8rem !important; }
+.mx-10 { margin-left: 8rem !important; margin-right: 8rem !important; }
+
+
+.m-6{ margin: 4rem !important; }
+.m-7 { margin: 5rem !important; }
+.m-8 { margin: 6rem !important; }
+.m-9{ margin: 7rem !important; }
+.m-10 { margin: 8rem !important; }
+

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabla Usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<style>
+    footer {
+        text-align: center;
+        font-size: 0.8rem;
+        color: #666;
+        bottom: 0;
+        position: fixed;
+        width: 100%;
+    }
+</style>
+
+<body>
+    <div class="container py-3">
+        <div class="row align-items-center">
+            <!-- Logo -->
+            <div class="col-12 col-md-4 text-center text-md-start mb-2 mb-md-0">
+                <a class="navbar-brand" th:href="@{/}">
+                    <img th:src="@{/img/Proyecto nuevo (2).jpg}" alt="Logo LA REAL 394" class="img-fluid">
+                </a>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-12 col-xl-12">
+                <form id="form_Buscar" th:action="@{/buscar}" method="get" class="mb-5">
+                <label class="form-label fw-bold">Código del usuario</label>
+                <input class="form-control" type="number" id="codigo" name="codigo">
+                <button type="submit" class="btn btn-warning mt-2 mb-1">Buscar usuario</button>
+                <p th:if="${mensaje}" th:text="${mensaje}" class="fw-bold mt-2"></p>
+                </form>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="usuario : ${lista_Usuarios}">
+                            <td th:text="${usuario.codigo}"></td>
+                            <td th:text="${usuario.correo}"></td>
+                            <td th:text="${usuario.rol}"></td>
+                            <td>
+                                <a th:href="@{/eliminar/{codigo}(codigo=${usuario.codigo})}" class="btn btn-warning"
+                                    onclick="return confirm('¿Eliminar este usuario?');" role="button">
+                                    <i class="bi bi-trash-fill"></i> Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <a th:href="@{/login}" class="btn btn-warning">Volver</a>
+            </div>
+        </div>
+    </div>
+    <footer class="mt-auto py-3 bg-dark text-white">
+        © 2025 La Real 394. Todos los derechos reservados.
+    </footer>
+</body>
+
+</html>

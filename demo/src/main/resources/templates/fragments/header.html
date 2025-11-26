@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${titulo != null ? titulo : 'LA REAL 394'}">LA REAL 394</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Space+Grotesk:wght@300..700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+    <div th:fragment="topbar" class="top-bar">
+        <div class="container">
+            <div class="top-bar-content">
+                <div class="row justify-content-between align-items-center">
+                    <div class="col-lg-8 col-md-12 mb-md-2 mb-lg-0">
+                        <a href="tel:933073307">
+                            <i class="fa-solid fa-phone"></i>
+                            933073307
+                        </a>
+                        <a href="mailto:lareal394sangucheria@gmail.com">
+                            <i class="fa-solid fa-envelope"></i>
+                            lareal394sangucheria@gmail.com
+                        </a>
+                        <a th:href="@{#ubicacion}">
+                            <i class="fa-solid fa-location-dot"></i>
+                            Lima - Perú
+                        </a>
+                    </div>
+                    <div class="col-lg-4 col-md-12 text-lg-end text-center">
+                        <div class="social-links-top">
+                            <i class="fa-brands fa-facebook"></i>
+                            <i class="fa-brands fa-instagram"></i>
+                            <i class="fa-brands fa-tiktok"></i>
+                        </div>
+
+                        <div class="col-12 col-md-12 text-end mt-2 mt-lg-0">
+                            <div th:if="${session.usuario != null}">
+                                <span class="text-white me-2" style="font-size: 0.9rem;">
+                                    <i class="fa-solid fa-user me-1" style="color: var(--color1);"></i>
+                                    Hola, <strong th:text="${session.usuario.correo}">usuario@ejemplo.com</strong>
+                                </span>
+                                <a th:href="@{/logout}" class="btn btn-warning text-dark fw-bold">
+                                    <i class="fa-solid fa-arrow-right-from-bracket me-1"></i>Cerrar sesión
+                                </a>
+                            </div>
+                            <div th:unless="${session.usuario != null}">
+                                <a th:href="@{/login}" class="btn btn-warning text-dark fw-bold">
+                                    <i class="fa-solid fa-right-to-bracket me-1"></i>Iniciar sesión
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/}">
+                <img th:src="@{/img/Proyecto nuevo (2).jpg}" alt="Logo LA REAL 394" class="img-fluid">
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <i class="fa-solid fa-bars" style="color: var(--color4); font-size: 1.5rem;"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${#strings.equals(active, 'inicio') ? 'active' : ''}"
+                            th:href="@{/}">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${#strings.equals(active, 'nosotros') ? 'active' : ''}"
+                            th:href="@{/nosotros}">Nosotros</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${#strings.equals(active, 'menu') ? 'active' : ''}"
+                            th:href="@{/menu}">Menú</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${#strings.equals(active, 'opiniones') ? 'active' : ''}"
+                            th:href="@{/opiniones}">Opiniones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:classappend="${#strings.equals(active, 'contactanos') ? 'active' : ''}"
+                            th:href="@{/contactanos}">Contáctanos</a>
+                    </li>
+                    <!-- 🛒 ICONO DEL CARRITO -->
+                    <li class="nav-item">
+                        <a class="nav-link carrito-icon-nav"
+                            th:classappend="${#strings.equals(active, 'carrito') ? 'active' : ''}"
+                            th:href="@{/carrito}">
+                            <i class="fa-solid fa-shopping-cart"></i>
+                            <span th:if="${session.cantidadCarrito != null and session.cantidadCarrito > 0}"
+                                class="badge-carrito-nav" th:text="${session.cantidadCarrito}">0</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Estilos para el icono del carrito en la navbar -->
+    <style>
+        .carrito-icon-nav {
+            position: relative;
+            padding: 10px 20px !important;
+        }
+
+        .carrito-icon-nav i {
+            font-size: 1.5rem;
+            color: var(--color4);
+            transition: color 0.3s ease;
+        }
+
+        .carrito-icon-nav:hover i {
+            color: var(--color1);
+        }
+
+        .carrito-icon-nav.active i {
+            color: var(--color1);
+        }
+
+        .badge-carrito-nav {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            box-shadow: 0 3px 10px rgba(220, 53, 69, 0.4);
+            animation: pulse-badge 2s infinite;
+        }
+
+        @keyframes pulse-badge {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 991px) {
+            .carrito-icon-nav {
+                display: inline-block;
+                padding: 10px 15px !important;
+            }
+
+            .badge-carrito-nav {
+                top: 3px;
+                right: 5px;
+            }
+        }
+    </style>
+</body>
+
+</html>

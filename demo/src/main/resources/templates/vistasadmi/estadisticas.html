@@ -1,0 +1,82 @@
+
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+
+
+<body>
+    <!-- Barra Superior -->
+    <div th:replace="~{fragments/header :: topbar}"></div>
+
+    <!-- Navbar personalizada para ADMIN -->
+    <nav th:fragment="navbar-admin" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/dashboard}">
+                <img th:src="@{/img/Proyecto nuevo (2).jpg}" alt="La Real 394" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/dashboard}" th:classappend="${active=='dashboard'} ? 'active' : ''">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/nosotros}" th:classappend="${active=='nosotros'} ? 'active' : ''">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/estadisticas}" th:classappend="${active=='estadisticas'} ? 'active' : ''">Estadísticas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/reservas}" th:classappend="${active=='reservas'} ? 'active' : ''">Reservas</a></li>
+                </ul>
+            </div>
+            <div class="d-flex">
+                <a th:href="@{/login}" class="btn btn-warning text-dark fw-bold">Cerrar sesión</a>
+            </div>
+        </div>
+    </nav>
+
+
+     <section class="container py-5">
+    <h2 class="fw-bold text-center mb-4">Estadísticas Generales</h2>
+
+    <!-- Filtros -->
+    <div class="row justify-content-center mb-4">
+      <div class="col-md-4 mb-2">
+        <label class="form-label fw-semibold">Tipo de Estadística:</label>
+        <select id="tipoEstadistica" class="form-select">
+          <option value="ventas" selected>Ventas</option>
+          <option value="opiniones">Opiniones</option>
+          <option value="bestsellers">Best Sellers</option>
+        </select>
+      </div>
+      <div class="col-md-4 mb-2">
+        <label class="form-label fw-semibold">Mes:</label>
+        <select id="mes" class="form-select">
+          <option value="todos" selected>Todos los meses</option>
+          <option value="enero">Enero</option>
+          <option value="febrero">Febrero</option>
+          <option value="marzo">Marzo</option>
+          <option value="abril">Abril</option>
+          <option value="mayo">Mayo</option>
+          <option value="junio">Junio</option>
+          <option value="julio">Julio</option>
+          <option value="agosto">Agosto</option>
+          <option value="septiembre">Septiembre</option>
+          <option value="octubre">Octubre</option>
+          <option value="noviembre">Noviembre</option>
+          <option value="diciembre">Diciembre</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Contenedor del gráfico -->
+    <div class="card shadow-sm p-4">
+      <canvas id="chartEstadisticas" height="130"></canvas>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div th:replace="~{fragments/footer :: footer}"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script th:src="@{/scripts/estadisticas.js}"></script>
+</body>
+</html>

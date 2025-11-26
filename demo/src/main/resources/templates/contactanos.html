@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragments/header :: head}"></head>
+
+<body>
+    <div th:replace="~{fragments/header :: topbar}"></div>
+
+    <nav th:replace="~{fragments/header :: navbar(active='contactanos')}"></nav>
+
+    <section class="contact-hero">
+        <div class="container">
+            <div class="contact-hero-content">
+                <h1>Contáctanos</h1>
+                <p>Estamos aquí para atenderte y resolver todas tus dudas</p>
+                <div class="contact-hero-icons">
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-phone"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-clock"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-methods">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Formas de Contacto</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <h3>Teléfono</h3>
+                        <p>Llámanos directamente para realizar tu pedido</p>
+                        <div class="contact-info">
+                            <a href="tel:933073307">933073307</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </div>
+                        <h3>WhatsApp</h3>
+                        <p>Escríbenos por WhatsApp para pedidos y consultas</p>
+                        <div class="contact-info">
+                            <a href="https://wa.me/51933073307" target="_blank">Chat directo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>Envíanos un correo para consultas generales</p>
+                        <div class="contact-info">
+                            <a href="mailto:lareal394sangucheria@gmail.com">lareal394sangucheria@gmail.com</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="contact-card">
+                        <div class="contact-card-icon">
+                            <i class="fa-solid fa-motorcycle"></i>
+                        </div>
+                        <h3>Delivery</h3>
+                        <p>Pedidos a domicilio en Lima</p>
+                        <div class="contact-info">
+                            <a href="#formulario">Hacer pedido</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-5" style="background-color: var(--color6);">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="section-title">Hacer una Reserva</h2>
+            </div>
+            <div class="row justify-content-center"> 
+                <div class="col-md-6 mb-4">
+                    <div class="card shadow-lg border-0 rounded-4">
+                        <div class="card-body p-4">
+                            <h5 class="card-title mb-4 text-center fw-bold" style="color: var(--color4);">
+                                <i class="fa-solid fa-calendar-plus me-2" style="color: var(--color1);"></i>
+                                Ingresa tus datos
+                            </h5>
+                            <form id="reservaForm">
+                                <div class="mb-3">
+                                    <label for="clienteNombre" class="form-label fw-semibold">
+                                        <i class="fa-solid fa-user me-2" style="color: var(--color1);"></i>Nombre
+                                    </label>
+                                    <input type="text" class="form-control rounded-3" id="clienteNombre" name="nombre"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="clienteTelefono" class="form-label fw-semibold">
+                                        <i class="fa-solid fa-phone me-2" style="color: var(--color1);"></i>Teléfono
+                                    </label>
+                                    <input type="text" class="form-control rounded-3" id="clienteTelefono"
+                                        name="telefono" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="numeroPersonas" class="form-label fw-semibold">
+                                        <i class="fa-solid fa-users me-2" style="color: var(--color1);"></i>Número de
+                                        Personas
+                                    </label>
+                                    <input type="number" class="form-control rounded-3" id="numeroPersonas"
+                                        name="numeroPersonas" min="1" max="20" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="fechaHora" class="form-label fw-semibold">
+                                        <i class="fa-solid fa-clock me-2" style="color: var(--color1);"></i>Hora
+                                    </label>
+                                    <input type="time" class="form-control rounded-3" id="fechaHora" name="hora"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn w-100 rounded-3 fw-bold"
+                                    style="background-color: var(--color1); color: var(--color4); border: none; padding: 12px;">
+                                    <i class="fa-solid fa-check me-2"></i>Reservar Ahora
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="formulario" class="contact-form-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5">
+                        <h2 class="section-title">Formulario de Contacto</h2>
+                    </div>
+                    <div class="form-container">
+                        <form th:action="@{/contactanos}" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Nombre *</label>
+                                        <input type="text" name="nombre" class="form-control-custom"
+                                            placeholder="Tu nombre completo" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Apellido *</label>
+                                        <input type="text" name="apellido" class="form-control-custom"
+                                            placeholder="Tu apellido" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Teléfono *</label>
+                                        <input type="tel" name="telefono" class="form-control-custom"
+                                            placeholder="Tu número de teléfono" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Email *</label>
+                                        <input type="email" name="email" class="form-control-custom"
+                                            placeholder="tucorreo@ejemplo.com" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tipo de Consulta *</label>
+                                <select name="tipoConsulta" class="form-control-custom" required>
+                                    <option value="">Selecciona una opción</option>
+                                    <option value="pedido">Realizar Pedido</option>
+                                    <option value="reserva">Reserva de Mesa</option>
+                                    <option value="delivery">Información de Delivery</option>
+                                    <option value="evento">Eventos y Catering</option>
+                                    <option value="reclamo">Reclamo o Sugerencia</option>
+                                    <option value="otro">Otro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Mensaje *</label>
+                                <textarea class="form-control-custom" rows="5" placeholder="Escribe tu mensaje aquí..."
+                                    name="mensaje" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="acepto" required>
+                                    <label class="form-check-label" for="acepto">
+                                        Acepto los <a href="#" style="color: var(--color1); font-weight: bold;">términos
+                                            y condiciones</a> y autorizo el tratamiento de mis datos personales.
+                                    </label>
+                                </diV>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn-submit">Enviar Mensaje</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div th:replace="~{fragments/footer :: floating}"></div>
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <a th:replace="~{fragments/footer :: scrolltop}"></a>
+
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+
+    <div class="modal fade" id="confirmarBorrar" tabindex="-1" aria-labelledby="confirmarBorrarLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg">
+                <div class="modal-header border-0"
+                    style="background: linear-gradient(135deg, var(--color1) 0%, #e6a800 100%);">
+                    <h5 class="modal-title fw-bold" id="confirmarBorrarLabel" style="color: var(--color4);">
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>Confirmar Eliminación
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="mb-0" style="color: var(--color4);">
+                        ¿Estás seguro de que deseas eliminar esta reserva? Esta acción no se puede deshacer.
+                    </p>
+                </div>
+                <div class="modal-footer border-0 p-3">
+                    <button type="button" class="btn btn-secondary rounded-3" data-bs-dismiss="modal">
+                        <i class="fa-solid fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="button" class="btn btn-danger rounded-3" id="btnEliminar">
+                        <i class="fa-solid fa-trash me-2"></i>Eliminar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const bootstrap = window.bootstrap;
+
+            // Función para mostrar notificaciones toast
+            function showToast(message, type = 'success') {
+                const toastHtml = `
+                    <div class="toast align-items-center text-white bg-${type} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                        <div class="d-flex">
+                            <div class="toast-body">${message}</div>
+                            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+                        </div>
+                    </div>
+                `;
+
+                let toastContainer = document.querySelector('.toast-container');
+                if (!toastContainer) {
+                    toastContainer = document.createElement('div');
+                    toastContainer.className = 'toast-container position-fixed bottom-0 end-0 p-3';
+                    document.body.appendChild(toastContainer);
+                }
+
+                toastContainer.insertAdjacentHTML('beforeend', toastHtml);
+                const toastElement = toastContainer.lastElementChild;
+                const toast = new bootstrap.Toast(toastElement);
+                toast.show();
+
+                toastElement.addEventListener('hidden.bs.toast', function () {
+                    this.remove();
+                });
+            }
+            
+            // ====== RESERVAS (Solo enviar, ya no carga tabla) ======
+            const formReserva = document.getElementById("reservaForm");
+            if (formReserva) {
+                formReserva.addEventListener("submit", function (e) {
+                    e.preventDefault();
+
+                    const datos = {
+                        nombre: document.getElementById("clienteNombre").value.trim(),
+                        telefono: document.getElementById("clienteTelefono").value.trim(),
+                        personas: document.getElementById("numeroPersonas").value,
+                        hora: document.getElementById("fechaHora").value
+                    };
+
+                    // Validación
+                    if (!datos.nombre || !datos.telefono || !datos.personas || !datos.hora) {
+                        showToast('Todos los campos de la reserva son obligatorios', 'warning');
+                        return;
+                    }
+
+                    // Enviar a la API
+                    fetch('/reservas/api/guardar', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(datos)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                showToast('Reserva realizada con éxito! Pronto nos pondremos en contacto.', 'success');
+                                formReserva.reset();
+                            } else {
+                                showToast('Error al reservar: ' + data.message, 'danger');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            showToast('Error al procesar la reserva', 'danger');
+                        });
+                });
+            }
+            
+            // ====== CONSULTAS (Solo enviar, ya no carga tabla) ======
+            const formContacto =
+                document.querySelector('form[th\\:action="@{/contactanos}"]') ||
+                document.querySelector('form[action="/contactanos"]') ||
+                document.querySelector('#formulario form');
+            
+            // Interceptar el formulario de contacto y guardar como Consulta
+            if (formContacto) {
+                formContacto.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const datos = {
+                        nombre: formContacto.querySelector('[name="nombre"]')?.value.trim() || '',
+                        apellido: formContacto.querySelector('[name="apellido"]')?.value.trim() || '',
+                        telefono: formContacto.querySelector('[name="telefono"]')?.value.trim() || '',
+                        email: formContacto.querySelector('[name="email"]')?.value.trim() || '',
+                        tipoConsulta: formContacto.querySelector('[name="tipoConsulta"]')?.value || '',
+                        mensaje: formContacto.querySelector('[name="mensaje"]')?.value.trim() || ''
+                    };
+
+                    if (Object.values(datos).some(v => !v)) {
+                        showToast('Completa todos los campos del formulario de contacto', 'warning');
+                        return;
+                    }
+
+                    fetch('/consultas/api/guardar', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(datos)
+                    })
+                        .then(r => r.json())
+                        .then(d => {
+                            if (d.success) {
+                                showToast('Consulta enviada. ¡Gracias!', 'success');
+                                formContacto.reset();
+                            } else {
+                                showToast(d.message || 'Error al enviar consulta', 'danger');
+                            }
+                        })
+                        .catch(() => showToast('Error de red al enviar consulta', 'danger'));
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>

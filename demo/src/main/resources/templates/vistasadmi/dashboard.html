@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+
+
+<body>
+    <!-- Barra Superior -->
+    <div th:replace="~{fragments/header :: topbar}"></div>
+
+    <!-- Navbar personalizada para ADMIN -->
+    <nav th:fragment="navbar-admin" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{/dashboard}">
+                <img th:src="@{/img/Proyecto nuevo (2).jpg}" alt="La Real 394" height="50">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/dashboard}" th:classappend="${active=='dashboard'} ? 'active' : ''">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/nosotros}" th:classappend="${active=='nosotros'} ? 'active' : ''">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/estadisticas}" th:classappend="${active=='estadisticas'} ? 'active' : ''">Estadísticas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/reservas}" th:classappend="${active=='reservas'} ? 'active' : ''">Reservas</a></li>
+                </ul>
+            </div>
+            <div class="d-flex">
+                <a th:href="@{/login}" class="btn btn-warning text-dark fw-bold">Cerrar sesión</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+  <div class="content">
+    <h1 class="fw-bold mb-4">Panel de Control</h1>
+
+  <!-- Métricas principales -->
+<div class="container mt-4">
+  <div class="row g-4 justify-content-center">
+
+    <!-- Fila 1 -->
+    <div class="col-md-5">
+      <div class="card text-center p-5 shadow-sm border-0">
+        <h5 class="fw-bold">MESAS ATENDIDAS</h5>
+        <div class="metric-value display-5 text-warning fw-bold mt-2">128</div>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="card text-center p-5 shadow-sm border-0">
+        <h5 class="fw-bold">DELIVERYS ENTREGADOS</h5>
+        <div class="metric-value display-5 text-success fw-bold mt-2">94</div>
+      </div>
+    </div>
+
+    <!-- Fila 2 -->
+    <div class="col-md-5">
+      <div class="card text-center p-5 shadow-sm border-0 mt-4">
+        <h5 class="fw-bold">VENTAS DEL MES (S/)</h5>
+        <div class="metric-value display-5 text-primary fw-bold mt-2">8,230</div>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="card text-center p-5 shadow-sm border-0 mt-4">
+        <h5 class="fw-bold">CLIENTES NUEVOS</h5>
+        <div class="metric-value display-5 text-danger fw-bold mt-2">57</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+   
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+    
+    <!-- Elementos Flotantes -->
+    <div th:replace="~{fragments/footer :: floating}"></div>
+    
+    <!-- Scroll Top -->
+    <div th:replace="~{fragments/footer :: scrolltop}"></div>
+
+    <!-- Scripts -->
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+
+
+</body>
+</html>

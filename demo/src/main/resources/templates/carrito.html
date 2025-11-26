@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <meta charset="UTF-8">
+    <title>Carrito de Compras - La Real 394</title>
+</head>
+
+<body>
+    <!-- Barra Superior -->
+    <div th:replace="~{fragments/header :: topbar}"></div>
+
+    <!-- Navbar -->
+    <nav th:replace="~{fragments/header :: navbar(active='carrito')}"></nav>
+
+    <!-- Hero Section -->
+    <section class="contact-hero">
+        <div class="container">
+            <div class="contact-hero-content">
+                <h1>Tu Carrito</h1>
+                <p>Revisa tus productos antes de proceder al pago</p>
+                <div class="contact-hero-icons">
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-shopping-cart"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-burger"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-credit-card"></i>
+                    </div>
+                    <div class="hero-icon">
+                        <i class="fa-solid fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mensajes de notificación -->
+    <div th:if="${mensaje}" class="container mt-4">
+        <div th:class="'alert alert-' + ${tipoMensaje}" role="alert">
+            <i th:class="'fa-solid ' + (${tipoMensaje == 'success'} ? 'fa-check-circle' : 'fa-exclamation-circle')"></i>
+            <span th:text="${mensaje}"></span>
+        </div>
+    </div>
+
+    <main class="carrito-main">
+        <section class="carrito-section espaciado">
+            <div class="contenedor">
+                <div class="carrito-container">
+                    
+                    <!-- Carrito vacío -->
+                    <div th:if="${#lists.isEmpty(items)}" class="carrito-vacio">
+                        <div class="empty-cart-icon">
+                            <i class="fa-solid fa-shopping-cart"></i>
+                        </div>
+                        <h2>Tu carrito está vacío</h2>
+                        <p>¡Agrega productos deliciosos para comenzar tu pedido!</p>
+                        <a th:href="@{/menu}" class="btn-volver-menu">
+                            <i class="fa-solid fa-arrow-left"></i> Volver al Menú
+                        </a>
+                    </div>
+
+                    <!-- Carrito con productos -->
+                    <div th:if="${!#lists.isEmpty(items)}" class="carrito-contenido">
+                        
+                        <!-- Lista de productos -->
+                        <div class="carrito-productos">
+                            <div class="carrito-header">
+                                <h2>Productos en tu carrito</h2>
+                                <span class="cantidad-items" th:text="${cantidadItems} + ' item(s)'">0 items</span>
+                            </div>
+
+                            <div class="productos-lista">
+                                <div class="producto-item" th:each="item : ${items}">
+                                    <div class="producto-imagen">
+                                        <img th:src="@{'/img/' + ${item.imagen}}" th:alt="${item.nombre}">
+                                    </div>
+                                    
+                                    <div class="producto-info">
+                                        <h3 th:text="${item.nombre}">Nombre del producto</h3>
+                                        <p class="producto-tipo" th:text="${item.tipo}">Categoría</p>
+                                        <p class="producto-precio" th:text="'S/ ' + ${#numbers.formatDecimal(item.precio, 1, 2)}">S/ 0.00</p>
+                                    </div>
+                                    
+                                    <div class="producto-cantidad">
+                                        <button class="btn-cantidad" onclick="cambiarCantidad(this, -1)" 
+                                                th:data-item-id="${item.id}">
+                                            <i class="fa-solid fa-minus"></i>
+                                        </button>
+                                        <input type="number" 
+                                               class="cantidad-input" 
+                                               th:value="${item.cantidad}"
+                                               th:data-item-id="${item.id}"
+                                               min="1" 
+                                               readonly>
+                                        <button class="btn-cantidad" onclick="cambiarCantidad(this, 1)" 
+                                                th:data-item-id="${item.id}">
+                                            <i class="fa-solid fa-plus"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="producto-subtotal">
+                                        <p class="subtotal-label">Subtotal:</p>
+                                        <p class="subtotal-precio" 
+                                           th:text="'S/ ' + ${#numbers.formatDecimal(item.subtotal, 1, 2)}">S/ 0.00</p>
+                                    </div>
+                                    
+                                    <div class="producto-acciones">
+                                        <form th:action="@{/carrito/eliminar/{id}(id=${item.id})}" method="post">
+                                            <button type="submit" class="btn-eliminar" 
+                                                    onclick="return confirm('¿Eliminar este producto?')">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="carrito-acciones-footer">
+                                <a th:href="@{/menu}" class="btn-seguir-comprando">
+                                    <i class="fa-solid fa-arrow-left"></i> Seguir Comprando
+                                </a>
+                                <form th:action="@{/carrito/vaciar}" method="post" style="display: inline;">
+                                    <button type="submit" class="btn-vaciar-carrito" 
+                                            onclick="return confirm('¿Vaciar todo el carrito?')">
+                                        <i class="fa-solid fa-trash-alt"></i> Vaciar Carrito
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Resumen del pedido -->
+                        <div class="carrito-resumen">
+                            <div class="resumen-card">
+                                <h3>Resumen del Pedido</h3>
+                                
+                                <div class="resumen-linea">
+                                    <span>Subtotal:</span>
+                                    <span th:text="'S/ ' + ${#numbers.formatDecimal(total, 1, 2)}">S/ 0.00</span>
+                                </div>
+                                
+                                <div class="resumen-linea">
+                                    <span>Delivery:</span>
+                                    <span>S/ 5.00</span>
+                                </div>
+                                
+                                <div class="resumen-linea descuento">
+                                    <span>Descuento:</span>
+                                    <span>- S/ 0.00</span>
+                                </div>
+                                
+                                <div class="resumen-divider"></div>
+                                
+                                <div class="resumen-total">
+                                    <span>Total a Pagar:</span>
+                                    <span th:text="'S/ ' + ${#numbers.formatDecimal(total + 5.00, 1, 2)}">S/ 0.00</span>
+                                </div>
+                                
+                                <a th:href="@{/carrito/checkout}" class="btn-procesar-pago">
+                                    <i class="fa-solid fa-credit-card"></i> Procesar Pago
+                                </a>
+                                
+                                <div class="metodos-pago">
+                                    <p>Métodos de pago aceptados:</p>
+                                    <div class="payment-icons">
+                                        <i class="fa-brands fa-cc-visa"></i>
+                                        <i class="fa-brands fa-cc-mastercard"></i>
+                                        <i class="fa-solid fa-money-bill"></i>
+                                        <span class="payment-text">Yape</span>
+                                        <span class="payment-text">Plin</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="seguridad-info">
+                                    <i class="fa-solid fa-lock"></i>
+                                    <span>Compra 100% segura</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Elementos Flotantes -->
+    <div th:replace="~{fragments/footer :: floating}"></div>
+
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+    <!-- Scroll Top -->
+    <a th:replace="~{fragments/footer :: scrolltop}"></a>
+
+    <!-- Scripts -->
+    <div th:replace="~{fragments/footer :: scripts}"></div>
+    
+    <!-- Script para actualizar cantidades -->
+    <script>
+        function cambiarCantidad(btn, cambio) {
+            const itemId = btn.getAttribute('data-item-id');
+            const input = document.querySelector(`input[data-item-id="${itemId}"]`);
+            let nuevaCantidad = parseInt(input.value) + cambio;
+            
+            if (nuevaCantidad < 1) {
+                if (confirm('¿Eliminar este producto del carrito?')) {
+                    // Eliminar el producto
+                    window.location.href = `/carrito/eliminar/${itemId}`;
+                }
+                return;
+            }
+            
+            input.value = nuevaCantidad;
+            
+            // Enviar actualización al servidor
+            fetch(`/carrito/actualizar/${itemId}?cantidad=${nuevaCantidad}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                }
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === 'OK') {
+                    // Recargar la página para actualizar los totales
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+    <!-- Estilos del carrito -->
+    <style>
+        :root {
+            --color1: #FFC000;
+            --color2: #fff;
+            --color3: #344856;
+            --color4: #212529;
+            --color6: #f5f5f5;
+        }
+
+        .carrito-main {
+            background: var(--color6);
+            min-height: calc(100vh - 400px);
+        }
+
+        .carrito-section {
+            padding: 80px 0;
+        }
+
+        /* Carrito vacío */
+        .carrito-vacio {
+            text-align: center;
+            padding: 100px 20px;
+            background: var(--color2);
+            border-radius: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .empty-cart-icon {
+            font-size: 6rem;
+            color: var(--color1);
+            margin-bottom: 30px;
+            opacity: 0.5;
+        }
+
+        .carrito-vacio h2 {
+            color: var(--color4);
+            margin-bottom: 15px;
+            font-size: 2rem;
+        }
+
+        .carrito-vacio p {
+            color: var(--color3);
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+        }
+
+        .btn-volver-menu {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--color1) 0%, #e6a800 100%);
+            color: var(--color4);
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 192, 0, 0.3);
+        }
+
+        .btn-volver-menu:hover {
+            background: linear-gradient(135deg, var(--color4) 0%, #1a1d20 100%);
+            color: var(--color1);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(33, 37, 41, 0.3);
+        }
+
+        /* Carrito con productos */
+        .carrito-contenido {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+        }
+
+        /* Lista de productos */
+        .carrito-productos {
+            background: var(--color2);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+        }
+
+        .carrito-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--color1);
+            margin-bottom: 25px;
+        }
+
+        .carrito-header h2 {
+            color: var(--color4);
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        .cantidad-items {
+            background: var(--color1);
+            color: var(--color4);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        /* Item de producto */
+        .producto-item {
+            display: grid;
+            grid-template-columns: 100px 1fr 150px 120px 60px;
+            gap: 20px;
+            align-items: center;
+            padding: 25px;
+            background: var(--color6);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .producto-item:hover {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .producto-imagen {
+            width: 100px;
+            height: 100px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .producto-imagen img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .producto-info h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.2rem;
+            color: var(--color4);
+        }
+
+        .producto-tipo {
+            color: var(--color3);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin: 0 0 8px 0;
+        }
+
+        .producto-precio {
+            color: var(--color1);
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 0;
+        }
+
+        /* Control de cantidad */
+        .producto-cantidad {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--color2);
+            padding: 8px;
+            border-radius: 30px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .btn-cantidad {
+            width: 35px;
+            height: 35px;
+            border: none;
+            background: var(--color1);
+            color: var(--color4);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .btn-cantidad:hover {
+            background: var(--color4);
+            color: var(--color1);
+            transform: scale(1.1);
+        }
+
+        .cantidad-input {
+            width: 50px;
+            text-align: center;
+            border: none;
+            background: transparent;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--color4);
+        }
+
+        .producto-subtotal {
+            text-align: right;
+        }
+
+        .subtotal-label {
+            color: var(--color3);
+            font-size: 0.85rem;
+            margin: 0 0 5px 0;
+        }
+
+        .subtotal-precio {
+            color: var(--color4);
+            font-weight: 700;
+            font-size: 1.2rem;
+            margin: 0;
+        }
+
+        .btn-eliminar {
+            width: 40px;
+            height: 40px;
+            border: none;
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-eliminar:hover {
+            background: #c82333;
+            transform: scale(1.1);
+        }
+
+        /* Acciones del carrito */
+        .carrito-acciones-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 25px;
+            border-top: 2px solid var(--color6);
+        }
+
+        .btn-seguir-comprando, .btn-vaciar-carrito {
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .btn-seguir-comprando {
+            background: var(--color6);
+            color: var(--color4);
+            border: 2px solid var(--color1);
+        }
+
+        .btn-seguir-comprando:hover {
+            background: var(--color1);
+            color: var(--color4);
+        }
+
+        .btn-vaciar-carrito {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-vaciar-carrito:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Resumen del pedido */
+        .resumen-card {
+            background: var(--color2);
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 20px;
+        }
+
+        .resumen-card h3 {
+            color: var(--color4);
+            margin: 0 0 25px 0;
+            font-size: 1.5rem;
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 3px solid var(--color1);
+        }
+
+        .resumen-linea {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--color3);
+            font-size: 1rem;
+        }
+
+        .resumen-linea.descuento {
+            color: #28a745;
+        }
+
+        .resumen-divider {
+            height: 2px;
+            background: var(--color6);
+            margin: 20px 0;
+        }
+
+        .resumen-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--color4);
+            margin-bottom: 25px;
+            padding: 20px;
+            background: var(--color6);
+            border-radius: 12px;
+        }
+
+        .btn-procesar-pago {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, var(--color1) 0%, #e6a800 100%);
+            color: var(--color4);
+            padding: 18px;
+            border-radius: 30px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 192, 0, 0.4);
+            font-size: 1.1rem;
+            margin-bottom: 25px;
+        }
+
+        .btn-procesar-pago:hover {
+            background: linear-gradient(135deg, var(--color4) 0%, #1a1d20 100%);
+            color: var(--color1);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(33, 37, 41, 0.4);
+        }
+
+        .metodos-pago {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .metodos-pago p {
+            color: var(--color3);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+
+        .payment-icons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .payment-icons i {
+            font-size: 2rem;
+            color: var(--color4);
+            opacity: 0.7;
+        }
+
+        .payment-text {
+            font-weight: 600;
+            color: var(--color4);
+            opacity: 0.7;
+        }
+
+        .seguridad-info {
+            text-align: center;
+            color: var(--color3);
+            font-size: 0.9rem;
+            padding: 15px;
+            background: var(--color6);
+            border-radius: 10px;
+        }
+
+        .seguridad-info i {
+            color: #28a745;
+            margin-right: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .carrito-contenido {
+                grid-template-columns: 1fr 350px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .carrito-contenido {
+                grid-template-columns: 1fr;
+            }
+
+            .producto-item {
+                grid-template-columns: 80px 1fr;
+                gap: 15px;
+            }
+
+            .producto-cantidad {
+                grid-column: 1 / -1;
+                justify-content: center;
+            }
+
+            .producto-subtotal {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .producto-acciones {
+                grid-column: 1 / -1;
+                text-align: center;
+            }
+
+            .resumen-card {
+                position: static;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .carrito-header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .producto-item {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .producto-imagen {
+                margin: 0 auto;
+            }
+
+            .carrito-acciones-footer {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn-seguir-comprando, .btn-vaciar-carrito {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

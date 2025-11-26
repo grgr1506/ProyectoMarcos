@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}"></head>
+<body>
+
+<div th:replace="~{fragments/header :: topbar}"></div>
+<nav th:replace="~{fragments/header :: navbar(active='menu')}"></nav>
+
+<section class="container py-4">
+  <div class="row justify-content-center">
+    <div class="col-12 col-md-5">
+      <div class="form-signin w-100 m-auto">
+        <h1 class="h3 mb-3 fw-bold text-center">Verificar cuenta</h1>
+
+        <div th:if="${mensaje}">
+          <p class="text-success" th:text="${mensaje}"></p>
+        </div>
+        <div th:if="${error}">
+          <p class="text-danger" th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/verificar-cuenta}" method="post">
+          <div class="form-floating mb-2">
+            <input type="email"
+                   class="form-control"
+                   id="correo"
+                   name="correo"
+                   th:value="${correo}"
+                   placeholder="name@example.com"
+                   required />
+            <label for="correo">Correo</label>
+          </div>
+
+          <div class="form-floating mb-3">
+            <input type="text"
+                   class="form-control"
+                   id="code"
+                   name="code"
+                   placeholder="Código de verificación"
+                   required />
+            <label for="code">Código de verificación</label>
+          </div>
+
+          <button class="btn btn-skin w-100 py-2 mb-3" type="submit">
+            Verificar cuenta
+          </button>
+
+          <p class="text-center">
+            ¿Ya verificaste tu cuenta?
+            <a th:href="@{/login}" class="body-link text-danger">Iniciar sesión</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div th:replace="~{fragments/footer :: floating}"></div>
+<div th:replace="~{fragments/footer :: footer}"></div>
+<a th:replace="~{fragments/footer :: scrolltop}"></a>
+<div th:replace="~{fragments/footer :: scripts}"></div>
+
+</body>
+</html>
+

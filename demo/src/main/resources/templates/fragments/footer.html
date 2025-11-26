@@ -1,0 +1,114 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <!-- Footer -->
+    <footer th:fragment="footer" class="footer-custom">
+        <div class="container">
+            <div class="row">
+                <!-- Logo -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <img th:src="@{/img/Proyecto nuevo (2).jpg}" alt="Logo La Real 394" class="footer-logo mb-3">
+                    <p style="color: rgba(255, 255, 255, 0.8); line-height: 1.8;">
+                        Los mejores sándwiches de Lima, hechos con ingredientes frescos y de calidad superior.
+                    </p>
+                </div>
+
+                <!-- Información de Contacto -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Contacto</h5>
+                    <p><i class="fa-solid fa-envelope me-2" style="color: var(--color1);"></i>
+                        <a href="mailto:lareal394sangucheria@gmail.com">lareal394sangucheria@gmail.com</a>
+                    </p>
+                    <p><i class="fa-solid fa-phone me-2" style="color: var(--color1);"></i>
+                        <a href="tel:933073307">933073307</a>
+                    </p>
+                    <p><i class="fa-solid fa-location-dot me-2" style="color: var(--color1);"></i>
+                        Lima - Perú</p>
+                    <p><i class="fa-solid fa-clock me-2" style="color: var(--color1);"></i>
+                        Lun - Dom: 11:00 AM - 10:00 PM</p>
+                </div>
+
+                <!-- Enlaces Útiles -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Enlaces</h5>
+                    <p><a th:href="@{/#nosotros}">Nosotros</a></p>
+                    <p><a th:href="@{/menu}">Menú</a></p>
+                    <p><a th:href="@{/opiniones}">Opiniones</a></p>
+                    <p><a th:href="@{/contactanos}">Contacto</a></p>
+                    <p><a href="#">Términos y condiciones</a></p>
+                    <p><a href="#">Política de privacidad</a></p>
+                </div>
+
+                <!-- Redes Sociales -->
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Síguenos</h5>
+                    <p><a href="https://www.instagram.com/lareal394sangucheria" target="_blank">
+                            <i class="fa-brands fa-instagram me-2" style="color: var(--color1);"></i>Instagram</a></p>
+                    <p><a href="https://www.facebook.com/profile.php?id=61565492907788" target="_blank">
+                            <i class="fa-brands fa-facebook me-2" style="color: var(--color1);"></i>Facebook</a></p>
+                    <p><a href="https://www.tiktok.com/@lareal394sangucheria" target="_blank">
+                            <i class="fa-brands fa-tiktok me-2" style="color: var(--color1);"></i>TikTok</a></p>
+                    <p><a href="https://www.linkedin.com/" target="_blank">
+                            <i class="fa-brands fa-linkedin me-2" style="color: var(--color1);"></i>LinkedIn</a></p>
+                </div>
+            </div>
+
+            <!-- Métodos de Pago -->
+            <div class="payment-section">
+                <div class="container">
+                    <h4 class="text-center mb-4" style="color: var(--color2); font-weight: 600;">Métodos de Pago</h4>
+                    <div class="payment-methods-container">
+                        <div class="payment-method yape">
+                            <div class="payment-icon">YAPE</div>
+                            <span class="payment-name">Yape</span>
+                        </div>
+                        <div class="payment-method plin">
+                            <div class="payment-icon">PLIN</div>
+                            <span class="payment-name">Plin</span>
+                        </div>
+                        <div class="payment-method visa">
+                            <div class="payment-icon">VISA</div>
+                            <span class="payment-name">Visa</span>
+                        </div>
+                        <div class="payment-method mastercard">
+                            <div class="payment-icon">MC</div>
+                            <span class="payment-name">Mastercard</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2024 La Real 394 Sanguchería. Todos los derechos reservados.</p>
+                <p>Diseñado con <i class="fa-solid fa-heart" style="color: var(--color1);"></i> para los amantes de las
+                    hamburguesas</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Elementos Flotantes -->
+    <div th:fragment="floating" class="floating-social">
+        <a href="https://www.facebook.com/profile.php?id=61565492907788" target="_blank" title="Facebook">
+            <i class="fa-brands fa-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/lareal394sangucheria" target="_blank" title="Instagram">
+            <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a href="https://www.tiktok.com/@lareal394sangucheria" target="_blank" title="TikTok">
+            <i class="fa-brands fa-tiktok"></i>
+        </a>
+        <a href="https://wa.me/51933073307" target="_blank" title="WhatsApp">
+            <i class="fa-brands fa-whatsapp"></i>
+        </a>
+    </div>
+
+    <a th:fragment="scrolltop" href="#inicio" class="scroll-top" id="scrollTop">
+        <i class="fa-solid fa-arrow-up"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS -->
+    <div th:fragment="scripts">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script th:src="@{/scripts/main.js}"></script>
+    </div>
+</body>
+</html>
