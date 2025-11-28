@@ -1,91 +1,142 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/header :: head}"></head>
 
-
-<body>
-    <!-- Barra Superior -->
+<body style="background-color: #f8f9fa;">
     <div th:replace="~{fragments/header :: topbar}"></div>
 
-    <!-- Navbar personalizada para ADMIN -->
-    <nav th:fragment="navbar-admin" class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+    <nav th:fragment="navbar-admin" class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
         <div class="container">
-            <a class="navbar-brand" th:href="@{/dashboard}">
-                <img th:src="@{/img/Proyecto nuevo (2).jpg}" alt="La Real 394" height="50">
+            <a class="navbar-brand fw-bold" th:href="@{/vistasadmi/dashboard}" style="color: var(--color1);">
+                <i class="fa-solid fa-user-shield me-2"></i>ADMIN PANEL
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/dashboard}" th:classappend="${active=='dashboard'} ? 'active' : ''">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/nosotros}" th:classappend="${active=='nosotros'} ? 'active' : ''">Nosotros</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/estadisticas}" th:classappend="${active=='estadisticas'} ? 'active' : ''">Estadísticas</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/reservas}" th:classappend="${active=='reservas'} ? 'active' : ''">Reservas</a></li>
+                <ul class="navbar-nav nav-pills">
+                    <li class="nav-item"><a class="nav-link active" th:href="@{/vistasadmi/dashboard}"><i class="fa-solid fa-chart-line me-1"></i>Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/nosotros}"><i class="fa-solid fa-store me-1"></i>Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/estadisticas}"><i class="fa-solid fa-chart-pie me-1"></i>Estadísticas</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/vistasadmi/reservas}"><i class="fa-solid fa-calendar-check me-1"></i>Reservas</a></li>
                 </ul>
             </div>
             <div class="d-flex">
-                <a th:href="@{/login}" class="btn btn-warning text-dark fw-bold">Cerrar sesión</a>
+                <a th:href="@{/logout}" class="btn btn-outline-danger fw-bold btn-sm rounded-pill px-3">
+                    <i class="fa-solid fa-sign-out-alt me-1"></i>Salir
+                </a>
             </div>
         </div>
     </nav>
 
-    <!-- Contenido principal -->
-  <div class="content">
-    <h1 class="fw-bold mb-4">Panel de Control</h1>
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="fw-bold text-dark m-0">Resumen General</h2>
+            <span class="badge bg-dark text-warning p-2 rounded-pill">
+                <i class="fa-solid fa-calendar-day me-1"></i> Hoy: <span th:text="${#dates.format(#dates.createNow(), 'dd/MM/yyyy')}"></span>
+            </span>
+        </div>
 
-  <!-- Métricas principales -->
-<div class="container mt-4">
-  <div class="row g-4 justify-content-center">
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 overflow-hidden" style="border-left: 5px solid #0d6efd !important;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1 fw-bold text-uppercase small">Ventas del Mes</p>
+                                <h3 class="fw-bold text-primary mb-0" th:text="'S/ ' + ${#numbers.formatDecimal(ventasMes, 1, 2)}">S/ 0.00</h3>
+                            </div>
+                            <div class="rounded-circle bg-primary bg-opacity-10 p-3">
+                                <i class="fa-solid fa-money-bill-wave fa-2x text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    <!-- Fila 1 -->
-    <div class="col-md-5">
-      <div class="card text-center p-5 shadow-sm border-0">
-        <h5 class="fw-bold">MESAS ATENDIDAS</h5>
-        <div class="metric-value display-5 text-warning fw-bold mt-2">128</div>
-      </div>
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 overflow-hidden" style="border-left: 5px solid #ffc107 !important;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1 fw-bold text-uppercase small">Reservas Hoy</p>
+                                <h3 class="fw-bold text-warning mb-0" th:text="${totalReservasHoy}">0</h3>
+                            </div>
+                            <div class="rounded-circle bg-warning bg-opacity-10 p-3">
+                                <i class="fa-solid fa-calendar-check fa-2x text-warning"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 overflow-hidden" style="border-left: 5px solid #198754 !important;">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <p class="text-muted mb-1 fw-bold text-uppercase small">Clientes Totales</p>
+                                <h3 class="fw-bold text-success mb-0" th:text="${totalClientes}">0</h3>
+                            </div>
+                            <div class="rounded-circle bg-success bg-opacity-10 p-3">
+                                <i class="fa-solid fa-users fa-2x text-success"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow border-0 rounded-4">
+                    <div class="card-header bg-dark text-white py-3 rounded-top-4">
+                        <h5 class="card-title m-0 fw-bold"><i class="fa-solid fa-file-pdf me-2 text-warning"></i>Generar Reportes Mensuales</h5>
+                    </div>
+                    <div class="card-body p-5">
+                        <p class="text-muted text-center mb-4">Selecciona el mes y el año para descargar el reporte detallado de ventas en formato PDF.</p>
+                        
+                        <form th:action="@{/vistasadmi/reporte/pdf}" method="get" target="_blank" class="row g-3 justify-content-center align-items-end">
+                            <div class="col-md-4">
+                                <label for="mes" class="form-label fw-bold">Mes</label>
+                                <select id="mes" name="mes" class="form-select form-select-lg bg-light border-0">
+                                    <option value="1">Enero</option>
+                                    <option value="2">Febrero</option>
+                                    <option value="3">Marzo</option>
+                                    <option value="4">Abril</option>
+                                    <option value="5">Mayo</option>
+                                    <option value="6">Junio</option>
+                                    <option value="7">Julio</option>
+                                    <option value="8">Agosto</option>
+                                    <option value="9">Septiembre</option>
+                                    <option value="10">Octubre</option>
+                                    <option value="11" th:selected="${#dates.month(#dates.createNow()) == 11}">Noviembre</option>
+                                    <option value="12" th:selected="${#dates.month(#dates.createNow()) == 12}">Diciembre</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="anio" class="form-label fw-bold">Año</label>
+                                <input type="number" id="anio" name="anio" class="form-control form-control-lg bg-light border-0" 
+                                       th:value="${anioActual}" min="2024" max="2030">
+                            </div>
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-warning btn-lg w-100 fw-bold text-dark shadow-sm">
+                                    <i class="fa-solid fa-download me-2"></i> Descargar PDF
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div class="col-md-5">
-      <div class="card text-center p-5 shadow-sm border-0">
-        <h5 class="fw-bold">DELIVERYS ENTREGADOS</h5>
-        <div class="metric-value display-5 text-success fw-bold mt-2">94</div>
-      </div>
-    </div>
-
-    <!-- Fila 2 -->
-    <div class="col-md-5">
-      <div class="card text-center p-5 shadow-sm border-0 mt-4">
-        <h5 class="fw-bold">VENTAS DEL MES (S/)</h5>
-        <div class="metric-value display-5 text-primary fw-bold mt-2">8,230</div>
-      </div>
-    </div>
-
-    <div class="col-md-5">
-      <div class="card text-center p-5 shadow-sm border-0 mt-4">
-        <h5 class="fw-bold">CLIENTES NUEVOS</h5>
-        <div class="metric-value display-5 text-danger fw-bold mt-2">57</div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-
-   
-    <!-- Footer -->
     <div th:replace="~{fragments/footer :: footer}"></div>
     
-    <!-- Elementos Flotantes -->
     <div th:replace="~{fragments/footer :: floating}"></div>
     
-    <!-- Scroll Top -->
     <div th:replace="~{fragments/footer :: scrolltop}"></div>
 
-    <!-- Scripts -->
     <div th:replace="~{fragments/footer :: scripts}"></div>
-
-
 </body>
 </html>
